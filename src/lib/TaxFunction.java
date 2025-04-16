@@ -13,18 +13,21 @@ public class TaxFunction {
 	 * Jika pegawai sudah memiliki anak maka penghasilan tidak kena pajaknya ditambah sebesar Rp 4.500.000 per anak sampai anak ketiga.
 	 * 
 	 */
-	
+
+	private static final int BASIC_NON_TAXABLE_INCOME = 54000000;
+	private static final int MARRIAGE_ALLOWANCE = 4500000;
+	private static final int CHILD_ALLOWANCE = 1500000;
+	private static final double TAX_RATE = 0.05;
+	private static final int MAX_CHILDREN = 3;
+	private static final int MAX_MONTHS_IN_YEAR = 12;
 	
 	public static int calculateTax(int monthlySalary, int otherMonthlyIncome, int numberOfMonthWorking, int deductible, boolean isMarried, int numberOfChildren) {
-		
-		int tax = 0;
-		
-		if (numberOfMonthWorking > 12) {
+		if (numberOfMonthWorking > MAX_MONTHS_IN_YEAR) {
 			System.err.println("More than 12 month working per year");
 		}
 		
-		if (numberOfChildren > 3) {
-			numberOfChildren = 3;
+		if (numberOfChildren > MAX_CHILDREN) {
+			numberOfChildren = MAX_CHILDREN;
 		}
 		
 		int netIncome = calculateNetIncome(monthlySalary, otherMonthlyIncome, numberOfMonthWorking, deductible);
@@ -40,22 +43,21 @@ public class TaxFunction {
 	}
 
 	private static int calculateNonTaxableincome(boolean isMarried, int numberOfChildren) {
-		int nonTaxable = 54000000;
+		int nonTaxable = BASIC_NON_TAXABLE_INCOME;
 		
 		if (isMarried) {
-			nonTaxable += 4500000;
+			nonTaxable += MARRIAGE_ALLOWANCE;
 		}
-		nonTaxable += numberOfChildren * 1500000;
+		nonTaxable += numberOfChildren * CHILD_ALLOWANCE;
 
 		return nonTaxable;
 	}
 
 	private static int calculateTaxableIncome(int netIncome, int nonTaxableIncome) {
-		int taxable = netIncome - nonTaxableIncome;
-		return Math.max(0, taxable);
+		return Math.max(0, netIncome - nonTaxableIncome);
 	}
 
 	private static int calculateAnnualTax(int taxableIncome) {
-		return (int) Math.round(0.05 * taxableIncome);
+		return (int) Math.round(TAX_RATE * taxableIncome);
 	}
 }
