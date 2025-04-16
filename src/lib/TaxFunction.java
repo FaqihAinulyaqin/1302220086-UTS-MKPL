@@ -39,10 +39,10 @@ public class TaxFunction {
 	}
 
 	private static int calculateNetIncome(int monthlySalary, int otherMonthlyIncome, int numberOfMonthWorking, int deductible) {
-		return (monthlySalary + otherMonthlyIncome) * numberOfMonthWorking) - deductible;
+		return (monthlySalary + otherMonthlyIncome) * numberOfMonthWorking - deductible;
 	}
 
-	private static int calculateNonTaxableincome(boolean isMarried, int numberOfChildren) {
+	private static int calculateNonTaxableIncome(boolean isMarried, int numberOfChildren) {
 		int nonTaxable = BASIC_NON_TAXABLE_INCOME;
 		
 		if (isMarried) {
